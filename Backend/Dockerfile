@@ -6,7 +6,7 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-WORKDIR ~
+WORKDIR /src
 COPY ["Backend/Backend.csproj", "Backend/"]
 COPY ["ViewModels/ViewModels.csproj", "ViewModels/"]
 RUN dotnet restore "Backend/Backend.csproj"
