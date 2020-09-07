@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend", "Backend\Backend.csproj", "{6020895E-8CA3-4FF4-92D7-95C6475A573E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9455BE0-BA87-40ED-A3B5-BE103B64A480} = {D9455BE0-BA87-40ED-A3B5-BE103B64A480}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels", "ViewModels\ViewModels.csproj", "{D9455BE0-BA87-40ED-A3B5-BE103B64A480}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6020895E-8CA3-4FF4-92D7-95C6475A573E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6020895E-8CA3-4FF4-92D7-95C6475A573E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6020895E-8CA3-4FF4-92D7-95C6475A573E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6020895E-8CA3-4FF4-92D7-95C6475A573E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9455BE0-BA87-40ED-A3B5-BE103B64A480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9455BE0-BA87-40ED-A3B5-BE103B64A480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9455BE0-BA87-40ED-A3B5-BE103B64A480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9455BE0-BA87-40ED-A3B5-BE103B64A480}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {86814DA0-1EFB-4083-A53C-06623A7233D0}
+	EndGlobalSection
+EndGlobal
