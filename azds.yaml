@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: bck
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bck-deployment
+  namespace: bck
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bck
+  template:
+    metadata:
+      namespace: bck
+      labels:
+        app: hello
+    spec:
+      containers:
+        - name: hello-world
+          image: cr.yandex/crp50ntveojf77o60dde/Backend:1.0
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 5000
+            protocol: TCP
