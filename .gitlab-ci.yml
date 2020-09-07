@@ -12,7 +12,7 @@ build:
   services:
     - docker:19.03.1-dind
   script:
-    - docker build . -t cr.yandex/crp50ntveojf77o60dde/bcs:gitlab-$CI_COMMIT_SHORT_SHA
+    - docker build Backend -t cr.yandex/crp50ntveojf77o60dde/bcs:gitlab-$CI_COMMIT_SHORT_SHA
     - docker push cr.yandex/crp50ntveojf77o60dde/bcs:gitlab-$CI_COMMIT_SHORT_SHA
       
 deploy:
