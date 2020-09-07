@@ -24,5 +24,5 @@ spec:
           image: cr.yandex/crp50ntveojf77o60dde/bcs:__VERSION__
           imagePullPolicy: Always
           ports:
-          - containerPort: 5000
+          - containerPort: 5001
             protocol: TCP
