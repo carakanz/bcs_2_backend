@@ -3,6 +3,44 @@ kind: Namespace
 metadata:
   name: bck
 ---
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: selfsigned
+spec:
+  selfSigned: {}
+  ---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: selfsigned-crt
+spec:
+  secretName: tls-secret
+  issuerRef:
+    kind: Issuer
+    name: selfsigned
+  commonName: "yet-another.website"
+  dnsNames:
+  - "yet-another.website"
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: app
+spec:
+  tls:
+  - hosts:
+    - "yet-another.website"
+    secretName: tls-secret
+  rules:
+  - host: "yet-another.website"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: app
+          servicePort: 8080
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
