@@ -37,7 +37,6 @@ metadata:
   name: bcs-sys
   namespace: bcs
 spec:
-  type: NodePort
   selector: 
     app: bcs-app
   ports: 
