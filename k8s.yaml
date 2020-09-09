@@ -48,3 +48,21 @@ spec:
       port: 80
       targetPort: 80
       protocol: TCP
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: web
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: "/api/*"
+        backend:
+          serviceName: bcs-app
+          servicePort: 80
