@@ -63,5 +63,5 @@ spec:
       paths:
       - path: "/"
         backend:
-          serviceName: bcs-app
+          serviceName: bcs-sys
           servicePort: 80
