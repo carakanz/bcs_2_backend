@@ -53,7 +53,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: web
-  namespace: default
+  namespace: bcs
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/rewrite-target: "/"
