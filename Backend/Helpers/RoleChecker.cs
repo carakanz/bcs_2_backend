@@ -27,7 +27,7 @@ namespace Backend.Helpers
             IEnumerable<AccessRule> accessList, 
             string message)
         {
-            var senderId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var senderId = user.FindFirst(ClaimTypes.Name)?.Value;
             if (string.IsNullOrEmpty(senderId))
             {
                 _logger.LogError(Helpers.LogEvents.InvalidToken,

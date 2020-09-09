@@ -11,10 +11,8 @@ namespace ViewModels
     public class Company
     {
         [Key]
-        public int Id { get; set; }
-
         [Required]
-        [StringValidator(MinLength = 1)]
+        [StringValidator(MinLength = 2)]
         public string Name { get; set; }
 
         [Required]
@@ -27,7 +25,6 @@ namespace ViewModels
         [DataType(DataType.ImageUrl)]
         public string Logo { get; set; }
 
-        [Required]
         [DataType(DataType.MultilineText)]
         public string Destription { get; set; }
     }

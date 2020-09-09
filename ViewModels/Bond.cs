@@ -9,8 +9,7 @@ namespace ViewModels
 {
     public class Bond
     {
-        [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Range(0, long.MaxValue, ErrorMessage = "Count must be between 0 and long.MaxValue")]
         public long? Count { get; set; }

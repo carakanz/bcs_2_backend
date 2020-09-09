@@ -41,7 +41,11 @@ namespace Backend
             services.AddDbContext<Models.IdentityApplicationContext>(options =>
                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
+                options.SerializerSettings.DateFormatString = "dd.MM.yyyy";
+            });
 
             var authOptions = Configuration.GetSection("AuthOptions");
 

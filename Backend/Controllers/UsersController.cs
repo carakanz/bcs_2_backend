@@ -62,9 +62,10 @@ namespace Backend.Controllers
             var user = await _context.Users
                 .Include(user => user.Bonds)
                 .ThenInclude(userBond => userBond.Bond)
+                .Where(user => user.Id == id)
                 .Select(user => user.ToViewUser())
                 .AsNoTracking()
-                .FirstOrDefaultAsync(user => user.Id == id);
+                .FirstOrDefaultAsync();
             if (user is null)
             {
                 _logger.LogInformation(Helpers.LogEvents.GetItem,

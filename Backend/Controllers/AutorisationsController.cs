@@ -68,6 +68,11 @@ namespace Backend.Controllers
                 };
                 await _userManager.CreateAsync(admin, "One_of_the_most_cunning_and_ruthless_warriors_in_the_history_of_the_Galactic_Empire");
                 await _userManager.AddToRoleAsync(admin, Helpers.Roles.Admin);
+                await _userManager.AddClaimsAsync(admin, new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, admin.UserName),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, Helpers.Roles.Admin)
+                });
             }
             return Ok();
         }
@@ -89,8 +94,20 @@ namespace Backend.Controllers
                 Email = user.Email,
                 EmailConfirmed = false,
             };
-            
+
             var result = await _userManager.CreateAsync(newUser, user.Password);
+            if (!result.Succeeded)
+            {
+                _logger.LogInformation(Helpers.LogEvents.InsertItemFaild,
+                        $"Insert item {newUser} faild, errors: {result.Errors}");
+                return StatusCode(403, result.Errors.ToArray());
+            }
+            result = await _userManager.AddClaimsAsync(newUser, new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, newUser.UserName),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, Helpers.Roles.Admin)
+                });
+
             if (!result.Succeeded)
             {
                 _logger.LogInformation(Helpers.LogEvents.InsertItemFaild,

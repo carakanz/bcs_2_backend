@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Backend.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+using Backend.Helpers.Extension;
+using System.Diagnostics;
 
 namespace Backend.Controllers
 {
@@ -13,88 +16,103 @@ namespace Backend.Controllers
     [ApiController]
     public class BondsController : ControllerBase
     {
-        private readonly IdentityApplicationContext _context;
+        private readonly Models.IdentityApplicationContext _context;
+        private readonly ILogger<UserBondsController> _logger;
+        private readonly Helpers.RoleChecker _roleChecker;
 
-        public BondsController(IdentityApplicationContext context)
+        private readonly Helpers.RoleChecker.AccessRule[] _adminAccessList =
+            new Helpers.RoleChecker.AccessRule[]
+            {
+                new Helpers.RoleChecker.AccessRule
+                {
+                    Role = Helpers.Roles.Admin,
+                    Rule = (user, resourse) => Helpers.RoleChecker.AccessAllowed(),
+                    LogLevel = LogLevel.Warning
+                },
+            };
+
+        public BondsController(Models.IdentityApplicationContext context,
+            ILogger<UserBondsController> logger)
         {
             _context = context;
+            _logger = logger;
+            _roleChecker = new Helpers.RoleChecker(_logger);
         }
 
         // GET: api/DBBonds/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DBBond>> GetDBBond(int id)
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<ViewModels.Bond>>> GetBonds()
         {
-            var dBBond = await _context.Bonds.FindAsync(id);
-
-            if (dBBond == null)
-            {
-                return NotFound();
-            }
-
-            return dBBond;
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DBBond>> GetDBBonds(int id)
-        {
-            var dBBond = await _context.Bonds.FindAsync(id);
-
-            if (dBBond == null)
-            {
-                return NotFound();
-            }
-
-            return dBBond;
-        }
-
-        // PUT: api/DBBonds/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDBBond(int id, DBBond dBBond)
-        {
-            if (id != dBBond.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(dBBond).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DBBondExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return await _context.Bonds
+                .Include(bond => bond.Company)
+                .AsNoTracking()
+                .Select(bond => bond.ToViewBond())
+                .ToListAsync();
         }
 
         // POST: api/DBBonds
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<DBBond>> PostDBBond(DBBond dBBond)
+        [HttpPost("update")]
+        [Authorize(Roles = Helpers.Roles.Admin)]
+        public async Task<ActionResult<IEnumerable<ViewModels.Bond>>> PostBond(IEnumerable<ViewModels.Bond> bonds)
         {
-            _context.Bonds.Add(dBBond);
+            var accessAllowed = _roleChecker.CheckAccessList(User, null, _adminAccessList, "PostBond");
+            if (!accessAllowed)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, new
+                {
+                    error = "Access denied"
+                });
+            }
+            foreach (ViewModels.Bond bond in bonds)
+            {
+                var company = await _context.Companies.FindAsync(bond.Company.Name);
+                if (company is null)
+                {
+                    _context.Add(bond.Company);
+                }
+
+                if (bond.Id is null)
+                {
+                    var bdBond = new Models.DBBond();
+                    bdBond.UpdateDBBond(bond);
+                    _context.Bonds.Add(bdBond);
+                }
+                else
+                {
+                    var bdBond = await _context.Bonds.FindAsync(bond.Id);
+                    if (bdBond is null)
+                    {
+                        bdBond = new Models.DBBond();
+                        bdBond.UpdateDBBond(bond);
+                        _context.Bonds.Add(bdBond);
+                    }
+                    else
+                    {
+                        bdBond.UpdateDBBond(bond);
+                    }
+                }
+            }
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDBBond", new { id = dBBond.Id }, dBBond);
+            return Ok(bonds);
         }
 
         // DELETE: api/DBBonds/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<DBBond>> DeleteDBBond(int id)
+        [Authorize(Roles = Helpers.Roles.Admin)]
+        public async Task<ActionResult<Models.DBBond>> DeleteDBBond(int id)
         {
+            var accessAllowed = _roleChecker.CheckAccessList(User, null, _adminAccessList, "PostBond");
+            if (!accessAllowed)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, new
+                {
+                    error = "Access denied"
+                });
+            }
+
             var dBBond = await _context.Bonds.FindAsync(id);
             if (dBBond == null)
             {
@@ -105,11 +123,6 @@ namespace Backend.Controllers
             await _context.SaveChangesAsync();
 
             return dBBond;
-        }
-
-        private bool DBBondExists(int id)
-        {
-            return _context.Bonds.Any(e => e.Id == id);
         }
     }
 }

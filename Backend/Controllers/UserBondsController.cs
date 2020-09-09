@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Helpers.Extension;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,7 @@ namespace Backend.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ViewModels.Bond>> Buy(ViewModels.UserBondBuyRequest userBond)
         {
             var accessAllowed = _roleChecker.CheckAccessList(User, userBond.UserId, _defaultAccessList, "Buy bond");
@@ -141,7 +143,7 @@ namespace Backend.Controllers
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return CreatedAtAction("Buy", result.ToViewUser());
+                    return CreatedAtAction("Buy", result.ToViewBond());
                 }
                 catch (Exception ex)
                 {
@@ -164,6 +166,7 @@ namespace Backend.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ViewModels.Bond>> Sell(ViewModels.UserBondBuyRequest userBond)
         {
             var accessAllowed = _roleChecker.CheckAccessList(User, userBond.UserId, _defaultAccessList, "Buy bond");
@@ -257,7 +260,7 @@ namespace Backend.Controllers
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return CreatedAtAction("Buy", dbUserBond.ToViewUser());
+                    return CreatedAtAction("Buy", dbUserBond.ToViewBond());
                 }
                 catch (Exception ex)
                 {

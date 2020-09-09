@@ -12,9 +12,9 @@ namespace Backend.Controllers
     public class ValuesController : ControllerBase
     {
         [HttpGet("status")]
-        public string Status()
+        public object Status()
         {
-            return "Ok";
+            return new { Date = DateTime.Now};
         }
     }
 }
