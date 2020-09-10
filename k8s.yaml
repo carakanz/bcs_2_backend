@@ -57,6 +57,7 @@ metadata:
   namespace: bcs
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "force-ssl-redirect"
     nginx.ingress.kubernetes.io/rewrite-target: "/"
 spec:
   rules:
