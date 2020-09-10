@@ -12,21 +12,18 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: bcs-app
+      app:web
   template:
     metadata:
       namespace: bcs
       labels:
-        app: bcs-app
+        app: web
     spec:
       containers:
         - name: bcs
           image: cr.yandex/crp50ntveojf77o60dde/bcs:__VERSION__
           imagePullPolicy: Always
           ports:
-          - name: https
-            containerPort: 443
-            protocol: TCP
           - name: http
             containerPort: 80
             protocol: TCP
@@ -34,17 +31,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: bcs-sys
+  name: web
   namespace: bcs
 spec:
   type: NodePort
   selector: 
-    app: bcs-app
+    app: web
   ports: 
-    - name: https
-      port: 443
-      targetPort: 443
-      protocol: TCP
     - name: http
       port: 80
       targetPort: 80
@@ -55,14 +48,7 @@ kind: Ingress
 metadata:
   name: bcs-ingress
   namespace: bcs
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: "/"
 spec:
-  rules:
-  - http:
-      paths:
-      - path: "/"
-        backend:
-          serviceName: bcs-sys
-          servicePort: 80
+  backend:
+    serviceName: web
+    servicePort: 80
