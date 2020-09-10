@@ -24,9 +24,6 @@ spec:
           image: cr.yandex/crp50ntveojf77o60dde/bcs:__VERSION__
           imagePullPolicy: Always
           ports:
-          - name: https
-            containerPort: 443
-            protocol: TCP
           - name: http
             containerPort: 80
             protocol: TCP
@@ -41,10 +38,6 @@ spec:
   selector: 
     app: bcs-app
   ports: 
-    - name: https
-      port: 443
-      targetPort: 443
-      protocol: TCP
     - name: http
       port: 80
       targetPort: 80
