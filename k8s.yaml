@@ -34,7 +34,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: bcs-app
+  name: bcs-sys
   namespace: bcs
 spec:
   type: NodePort
@@ -53,17 +53,12 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: bcs-app
+  name: web
   namespace: bcs
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/ssl-redirect: "force-ssl-redirect"
     nginx.ingress.kubernetes.io/rewrite-target: "/"
 spec:
-  rules:
-  - http:
-      paths:
-      - path: "/"
-        backend:
-          serviceName: bcs-app
-          servicePort: 80
+  backend:
+    serviceName: bcs-sys
+    servicePort: 80
