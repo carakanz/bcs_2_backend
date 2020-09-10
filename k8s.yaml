@@ -37,7 +37,7 @@ metadata:
   name: bcs-sys
   namespace: bcs
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector: 
     app: bcs-app
   ports: 
