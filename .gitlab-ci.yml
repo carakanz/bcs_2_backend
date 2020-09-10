@@ -24,7 +24,7 @@ deploy:
     - kubectl config set-context default --cluster=k8s --user=admin
     - kubectl config use-context default
     - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_SHORT_SHA/" Backend/deployment.yaml
-    - kubectl apply -f namespacedeployment.yaml
+    - kubectl apply -f namespace.yaml
     - kubectl apply -f Backend/deployment.yaml
     - kubectl apply -f nodeport.yaml
     - kubectl apply -f ingress.yaml
