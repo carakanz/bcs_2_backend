@@ -53,7 +53,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: web
+  name: bcs-ingress
   namespace: bcs
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
