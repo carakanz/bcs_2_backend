@@ -143,7 +143,7 @@ namespace Backend.Controllers
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return CreatedAtAction("Buy", result.ToViewBond());
+                    return Ok(result.ToViewBond());
                 }
                 catch (Exception ex)
                 {
@@ -260,7 +260,7 @@ namespace Backend.Controllers
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return CreatedAtAction("Buy", dbUserBond.ToViewBond());
+                    return Ok(dbUserBond.ToViewBond());
                 }
                 catch (Exception ex)
                 {
