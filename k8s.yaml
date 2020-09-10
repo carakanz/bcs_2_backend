@@ -48,9 +48,6 @@ kind: Ingress
 metadata:
   name: web
   namespace: bcs
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: "/"
 spec:
   backend:
     serviceName: bcs-sys
