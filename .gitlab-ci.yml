@@ -27,4 +27,5 @@ deploy:
     - kubectl apply -f namespace.yaml
     - kubectl apply -f Backend/deployment.yaml
     - kubectl apply -f nodeport.yaml
+    - kubectl apply -f letsencrypt.yaml
     - kubectl apply -f ingress.yaml
