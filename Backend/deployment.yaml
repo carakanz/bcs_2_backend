@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: bcs-deployment
-          image: cr.yandex/crp50ntveojf77o60dde/bcs:__VERSION__
+          image: cr.yandex/crp50ntveojf77o60dde/backend:__VERSION__
           imagePullPolicy: Always
           ports:
           - name: http
