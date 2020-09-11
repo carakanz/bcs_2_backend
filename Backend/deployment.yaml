@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bcs-deployment
+  name: bcs-back-deployment
   namespace: bcs
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: bcs-deployment
+      app: bcs-back-deployment
   template:
     metadata:
       namespace: bcs
       labels:
-        app: bcs-deployment
+        app: bcs-back-deployment
     spec:
       containers:
-        - name: bcs-deployment
+        - name: bcs-back-deployment
           image: cr.yandex/crp50ntveojf77o60dde/backend:__VERSION__
           imagePullPolicy: Always
           ports:

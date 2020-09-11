@@ -18,5 +18,9 @@ spec:
       paths:
       - path: "/api"
         backend:
-          serviceName: bcs-nodeport
+          serviceName: bcs-back-nodeport
+          servicePort: 80
+      - path: "/"
+        backend:
+          serviceName: bcs-front-nodeport
           servicePort: 80
