@@ -9,8 +9,6 @@ metadata:
     kubernetes.io/rewrite-target: "/"
 spec:
 spec:
-  loadBalancerIP: "42.42.42.42"
-  externalTrafficPolicy: "Local"
   tls:
   - hosts:
     - 84.201.151.58.nip.io
