@@ -9,6 +9,9 @@ metadata:
     kubernetes.io/rewrite-target: "/"
     nginx.org/redirect-to-https: "false"
     kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ssl-passthrough: "true"
+    kubernetes.io/secure-backends: "true"
+    kubernetes.io/ingress.allow-http: "false"
 spec:
   tls:
   - hosts:
