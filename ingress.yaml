@@ -8,6 +8,7 @@ metadata:
     cert-manager.io/cluster-issuer: "bcs-letsencrypt"
     kubernetes.io/rewrite-target: "/"
     kubernetes.io/ssl-redirect: "false"
+    nginx.org/redirect-to-https: "false"
 spec:
 spec:
   tls:
