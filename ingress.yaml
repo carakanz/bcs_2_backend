@@ -11,8 +11,8 @@ metadata:
     kubernetes.io/ssl-redirect: "false"
     kubernetes.io/ssl-passthrough: "false"
     kubernetes.io/secure-backends: "false"
-    kubernetes.io/ingress.allow-http: "false"
-    kubernetes.io/force-ssl-redirect: "true"
+    kubernetes.io/ingress.allow-http: "true"
+    kubernetes.io/force-ssl-redirect: "false"
 spec:
   tls:
   - hosts:
