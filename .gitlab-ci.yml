@@ -12,8 +12,8 @@ build:
   services:
     - docker:19.03.1-dind
   script:
-    - docker build -f Backend/Dockerfile -t cr.yandex/crp50ntveojf77o60dde/backend:gitlab-$CI_COMMIT_REF_NAME .
-    - docker push cr.yandex/crp50ntveojf77o60dde/backend:gitlab-$CI_COMMIT_REF_NAME
+    - docker build -f Backend/Dockerfile -t cr.yandex/crp50ntveojf77o60dde/backend:gitlab-$CI_COMMIT_SHORT_SHA
+    - docker push cr.yandex/crp50ntveojf77o60dde/backend:gitlab-$CI_COMMIT_SHORT_SHA
       
 deploy:
   image: gcr.io/cloud-builders/kubectl:latest
@@ -23,7 +23,7 @@ deploy:
     - kubectl config set-credentials admin --token="$KUBE_TOKEN"
     - kubectl config set-context default --cluster=k8s --user=admin
     - kubectl config use-context default
-    - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_REF_NAME/" Backend/deployment.yaml
+    - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_SHORT_SHA/" Backend/deployment.yaml
     - kubectl apply -f namespace.yaml
     - kubectl apply -f Backend/deployment.yaml
     - kubectl apply -f Backend/nodeport.yaml
