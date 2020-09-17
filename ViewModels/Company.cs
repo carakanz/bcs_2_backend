@@ -26,6 +26,6 @@ namespace ViewModels
         public string Logo { get; set; }
 
         [DataType(DataType.MultilineText)]
-        public string Destription { get; set; }
+        public string Description { get; set; }
     }
 }
