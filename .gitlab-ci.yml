@@ -28,4 +28,3 @@ deploy:
     - kubectl apply -f Backend/deployment.yaml
     - kubectl apply -f Backend/nodeport.yaml
     - kubectl apply -f ingress.yaml
-    - kubectl apply -f letsencrypt.yaml
