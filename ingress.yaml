@@ -10,7 +10,7 @@ metadata:
 spec:
   tls:
   - hosts:
-    - 84.201.151.58.nip.io
+    - 130.193.44.129.nip.io
     secretName: echo-tls
   rules:
   - http:
