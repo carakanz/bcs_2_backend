@@ -50,22 +50,6 @@ namespace Backend.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/DBBonds/5
-        [HttpGet()]
-        public async Task<ActionResult<IEnumerable<ViewModels.Bond>>> GetDefoultBonds()
-        {
-            var bonds = await _context.Bonds
-                .Include(bond => bond.Company)
-                .AsNoTracking()
-                .Select(bond => bond.ToViewBond())
-                .ToListAsync();
-            bonds.Find(bond => bond.Id == 64).Count = 50;
-            bonds.Find(bond => bond.Id == 65).Count = 50;
-            bonds.Find(bond => bond.Id == 73).Count = 50;
-            bonds.Find(bond => bond.Id == 74).Count = 50;
-            return bonds;
-        }
-
         // POST: api/DBBonds
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
